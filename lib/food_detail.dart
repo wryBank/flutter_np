@@ -102,9 +102,9 @@ class FoodDetailPage extends StatelessWidget {
                           Container(
                             child: Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.circle,
-                                  color: Color(0xFF75c5ba),
+                                  color: Colors.amber.withOpacity(0.5),
                                   size: 20,
                                 ),
                                 const SizedBox(width: 5),
@@ -138,9 +138,9 @@ class FoodDetailPage extends StatelessWidget {
                           Container(
                             child: Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.av_timer_outlined,
-                                  color: Color(0xFF75c5ba),
+                                  color: Colors.amber.withOpacity(0.5),
                                   size: 20,
                                 ),
                                 const SizedBox(width: 5),
