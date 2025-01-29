@@ -214,10 +214,20 @@ class FoodDetailPage extends StatelessWidget {
             Positioned(
               top: screenHeight * 0.33,
               left: screenWidth * 0.8,
-              child: const CircleAvatar(
-                radius: 20,
-                backgroundColor: Color(0xFF75c5ba),
-                child: Icon(Icons.favorite, size: 25, color: Colors.white),
+              child: Container(
+                decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF75c5ba).withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 7,
+                    offset: const Offset(0, 3),
+                  ),
+                ]),
+                child: const CircleAvatar(
+                  radius: 20,
+                  backgroundColor: Color(0xFF75c5ba),
+                  child: Icon(Icons.favorite, size: 25, color: Colors.white),
+                ),
               ),
             ),
             Positioned(
@@ -233,10 +243,16 @@ class FoodDetailPage extends StatelessWidget {
               return Positioned(
                 top: screenHeight * 0.05,
                 left: screenWidth * 0.90,
-                child: CircleAvatar(
-                  radius: 8,
-                  backgroundColor: const Color(0xFF75c5ba),
-                  child: Text('${state.cartitem}', style: const TextStyle(color: Colors.white, fontSize: 10)),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.white, width: 2),
+                  ),
+                  child: CircleAvatar(
+                    radius: 8,
+                    backgroundColor: const Color(0xFF75c5ba),
+                    child: Text('${state.cartitem}', style: const TextStyle(color: Colors.white, fontSize: 10)),
+                  ),
                 ),
               );
             }),
@@ -263,15 +279,19 @@ class FoodDetailPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
-                  ),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, shape: BoxShape.rectangle, boxShadow: [
+                    BoxShadow(
+                      color: const Color.fromARGB(255, 165, 165, 165).withOpacity(0.6),
+                      spreadRadius: 1,
+                      blurRadius: 20,
+                      offset: const Offset(0, 8),
+                    ),
+                  ]),
                   child: Row(
                     children: [
                       IconButton(
                         onPressed: () {
-                          if (state.count > 0) context.read<CartBloc>().add(CartEventRemove(item: 1));
+                          if (state.count > 1) context.read<CartBloc>().add(CartEventRemove(item: 1));
                         },
                         icon: const Icon(Icons.remove),
                       ),
@@ -291,22 +311,32 @@ class FoodDetailPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                Container(
+                  decoration: BoxDecoration(shape: BoxShape.rectangle, boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF75c5ba).withOpacity(0.6),
+                      spreadRadius: 1,
+                      blurRadius: 20,
+                      offset: const Offset(0, 8),
+                    ),
+                  ]),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        backgroundColor: const Color(0xFF75c5ba),
+                        minimumSize: const Size(150, 50)),
+                    onPressed: () {
+                      context.read<CartBloc>().add(AddtoCart(cartitem: 1));
+                    },
+                    child: Text(
+                      '\$ ${state.count * 14} | Add to Cart',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.white,
                       ),
-                      backgroundColor: const Color(0xFF75c5ba),
-                      minimumSize: const Size(150, 50)),
-                  onPressed: () {
-                    context.read<CartBloc>().add(AddtoCart(cartitem: 1));
-                  },
-                  child: Text(
-                    '\$ ${state.count * 14} | Add to Cart',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.white,
                     ),
                   ),
                 ),
