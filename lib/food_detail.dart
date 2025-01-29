@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/logic/blocs/cart/cart_bloc.dart';
+import 'package:flutter_application_1/logic/blocs/cart/cart_event.dart';
+import 'package:flutter_application_1/logic/blocs/cart/cart_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FoodDetailPage extends StatelessWidget {
   const FoodDetailPage({super.key});
@@ -62,11 +66,15 @@ class FoodDetailPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          const Icon(Icons.star_rate_rounded, color: Color(0xFF75c5ba)),
-                          const Icon(Icons.star_rate_rounded, color: Color(0xFF75c5ba)),
-                          const Icon(Icons.star_rate_rounded, color: Color(0xFF75c5ba)),
-                          const Icon(Icons.star_rate_rounded, color: Color(0xFF75c5ba)),
-                          Icon(Icons.star, color: Colors.grey[300]),
+                          const Icon(Icons.star_rate_rounded, color: Color(0xFF75c5ba), size: 20),
+                          const Icon(Icons.star_rate_rounded, color: Color(0xFF75c5ba), size: 20),
+                          const Icon(Icons.star_rate_rounded, color: Color(0xFF75c5ba), size: 20),
+                          const Icon(Icons.star_rate_rounded, color: Color(0xFF75c5ba), size: 20),
+                          Icon(
+                            Icons.star,
+                            color: Colors.grey[300],
+                            size: 20,
+                          ),
                           const SizedBox(width: 10),
                           Text(
                             '4.5',
@@ -94,12 +102,16 @@ class FoodDetailPage extends StatelessWidget {
                           Container(
                             child: Row(
                               children: [
-                                const Icon(Icons.circle, color: Color(0xFF75c5ba)),
+                                const Icon(
+                                  Icons.circle,
+                                  color: Color(0xFF75c5ba),
+                                  size: 20,
+                                ),
                                 const SizedBox(width: 5),
                                 Text(
                                   'Nomal',
                                   style: TextStyle(
-                                    fontSize: 15,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.normal,
                                     color: Colors.grey[400],
                                   ),
@@ -110,12 +122,12 @@ class FoodDetailPage extends StatelessWidget {
                           Container(
                             child: Row(
                               children: [
-                                const Icon(Icons.location_on_outlined, color: Color(0xFF75c5ba)),
+                                const Icon(Icons.location_on_outlined, color: Color(0xFF75c5ba), size: 20),
                                 const SizedBox(width: 5),
                                 Text(
                                   '1.7km',
                                   style: TextStyle(
-                                    fontSize: 15,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.normal,
                                     color: Colors.grey[400],
                                   ),
@@ -126,12 +138,16 @@ class FoodDetailPage extends StatelessWidget {
                           Container(
                             child: Row(
                               children: [
-                                const Icon(Icons.av_timer_outlined, color: Color(0xFF75c5ba)),
+                                const Icon(
+                                  Icons.av_timer_outlined,
+                                  color: Color(0xFF75c5ba),
+                                  size: 20,
+                                ),
                                 const SizedBox(width: 5),
                                 Text(
                                   '32min',
                                   style: TextStyle(
-                                    fontSize: 15,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.normal,
                                     color: Colors.grey[400],
                                   ),
@@ -153,15 +169,16 @@ class FoodDetailPage extends StatelessWidget {
                       const SizedBox(height: 10),
                       LayoutBuilder(
                         builder: (context, constraints) {
-                          bool isOverflowing = constraints.maxHeight > 28; // Check if the text exceeds 3 lines (3 * 16 = 48)
+                          bool isOverflowing = constraints.maxHeight > 48; // Check if the text exceeds 3 lines (3 * 16 = 48)
                           return Column(
                             // mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget",
+                                "The pasta in the picture USES alkaline noodles, which many people are not very familiar with. The sauce is also very popular with the local people.",
+
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   color: Colors.grey[400],
                                 ),
                                 maxLines: 3,
@@ -170,13 +187,21 @@ class FoodDetailPage extends StatelessWidget {
                               ),
                               const SizedBox(height: 10),
                               if (isOverflowing)
-                                const Text(
-                                  'Read more',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Color(0xFF75c5ba),
-                                  ),
-                                ),
+                                const Row(
+                                  children: [
+                                    Text(
+                                      'Expand',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF75c5ba),
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_drop_down,
+                                      color: Color(0xFF75c5ba),
+                                    ),
+                                  ],
+                                )
                             ],
                           );
                         },
@@ -197,75 +222,99 @@ class FoodDetailPage extends StatelessWidget {
             ),
             Positioned(
               top: screenHeight * 0.05,
-              left: screenWidth * 0.8,
+              left: screenWidth * 0.85,
               child: CircleAvatar(
                 radius: 20,
                 backgroundColor: Colors.white.withOpacity(0.5),
-                child: const Icon(Icons.add_shopping_cart, size: 25, color: Colors.black),
+                child: const Icon(Icons.shopping_cart_outlined, size: 20, color: Colors.black),
               ),
             ),
+            BlocBuilder<CartBloc, CartModelState>(builder: (context, state) {
+              return Positioned(
+                top: screenHeight * 0.05,
+                left: screenWidth * 0.90,
+                child: CircleAvatar(
+                  radius: 8,
+                  backgroundColor: const Color(0xFF75c5ba),
+                  child: Text('${state.cartitem}', style: const TextStyle(color: Colors.white, fontSize: 10)),
+                ),
+              );
+            }),
             Positioned(
               top: screenHeight * 0.05,
-              left: screenWidth * 0.1,
+              left: screenWidth * 0.05,
               child: CircleAvatar(
                 radius: 20,
                 backgroundColor: Colors.white.withOpacity(0.5),
-                child: const Icon(Icons.arrow_back, size: 25, color: Colors.black),
+                child: const Icon(Icons.arrow_back_ios_new, size: 20, color: Colors.black),
               ),
             ),
           ],
         ),
       ),
-      floatingActionButton: BottomAppBar(
-        color: Colors.transparent,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.amber,
-              ),
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      // setState(() {
-                      //   if (quantity > 1) quantity--;
-                      // });
-                    },
-                    icon: const Icon(Icons.remove),
+      floatingActionButton: BlocBuilder<CartBloc, CartModelState>(builder: (context, state) {
+        return BottomAppBar(
+          color: Colors.transparent,
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: 20,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
                   ),
-                  const Text(
-                    '1',
-                    style: TextStyle(
+                  child: Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          if (state.count > 0) context.read<CartBloc>().add(CartEventRemove(item: 1));
+                        },
+                        icon: const Icon(Icons.remove),
+                      ),
+                      Text(
+                        '${state.count}',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          context.read<CartBloc>().add(CartEventAdd(item: 1));
+                        },
+                        icon: const Icon(Icons.add),
+                      ),
+                    ],
+                  ),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      backgroundColor: const Color(0xFF75c5ba),
+                      minimumSize: const Size(150, 50)),
+                  onPressed: () {
+                    context.read<CartBloc>().add(AddtoCart(cartitem: 1));
+                  },
+                  child: Text(
+                    '\$ ${state.count * 14} | Add to Cart',
+                    style: const TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.white,
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {
-                      // setState(() {
-                      //   quantity++;
-                      // });
-                    },
-                    icon: const Icon(Icons.add),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  backgroundColor: const Color(0xFF75c5ba)),
-              onPressed: () {},
-              child: const Text('12 | Add to Cart'),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      }),
     );
   }
 }
